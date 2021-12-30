@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}
+    <title>Show Laptop Page</title>
+{% endblock %}
+{% block content %}
+    <h1 style="text-align:center;color:orange">Laptop Details</h1>
+    <table class="table table-striped table-dark" style="width:90%;margin:auto">
+        <tr >
+            <th>ID</th>
+            <th>COMPANY</th>
+            <th>MODEL NAME</th>
+            <th>PRICE</th>
+            <th>UPDATE</th>
+            <th>DELETE</th>
+        </tr>
+        {% for laptop in page_obj %}
+            <tr >
+                <td>{{laptop.id}}</td>
+                <td>{{laptop.company}}</td>
+                <td>{{laptop.model_name}}</td>
+                <td>{{laptop.price}}</td>
+                <td><a href="{% url 'update' laptop.id %}"><button class="btn btn-warning">Update</button></a></td>
+                <td><a href="{% url 'delete' laptop.id %}"><button class="btn btn-danger">Delete</button></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="pagination" >
+    <span class="step-links" style="margin:auto" >
+        {% if page_obj.has_previous %}
+            <a  href="?page=1">first</a>
+            <a  href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a  href="?page={{ page_obj.next_page_number }}">next</a>
+            <a  href="?page={{ page_obj.paginator.num_pages }}">last</a>
+        {% endif %}
+    </span>
+</div>
+
+    <br>
+    <a  href="{% url 'add_laptop' %}"><button class="btn btn-success" style="margin-left:4.5%">Add Laptop</button></a>
+{% endblock %}
